@@ -1,5 +1,5 @@
 import isel.leic.UsbPort
-
+import isel.leic.simul.*
 object HAL {
     fun readBits(mask : Int): Int {
         val maskBitList = decToBitList(mask)
@@ -16,15 +16,26 @@ object HAL {
     fun writeBits(mask: Int,value: Int){
         val maskBitList = decToBitList(mask)
         var usbPortBitList = decToBitList(UsbPort.read()).toMutableList()
+        val value = decToBitList(value)
         for (i in maskBitList.indices){
-            if (maskBitList[i] == 1){ usbPortBitList[i] = value }
+            if (maskBitList[i] == 1){ usbPortBitList[i] = value[i] }
         }
         UsbPort.write(bitListToDec(usbPortBitList))
     }
     fun setBits(mask: Int){
-        writeBits(mask, 1)
+        val maskBitList = decToBitList(mask)
+        var usbPortBitList = decToBitList(UsbPort.read()).toMutableList()
+        for (i in maskBitList.indices){
+            if (maskBitList[i] == 1){ usbPortBitList[i] = 1 }
+        }
+        UsbPort.write(bitListToDec(usbPortBitList))
     }
     fun clrBits(mask:Int) {
-        writeBits(mask,0)
+        val maskBitList = decToBitList(mask)
+        var usbPortBitList = decToBitList(UsbPort.read()).toMutableList()
+        for (i in maskBitList.indices){
+            if (maskBitList[i] == 1){ usbPortBitList[i] = 0 }
+        }
+        UsbPort.write(bitListToDec(usbPortBitList))
     }
 }

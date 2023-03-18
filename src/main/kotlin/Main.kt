@@ -1,7 +1,7 @@
 import isel.leic.UsbPort
 import kotlin.math.*
 fun main(){
-    while(true){
-        println(HAL.readBits(0xFF))
-    }
+    val a = decToBitList(44)
+    println(a)
+    println(bitListToDec(a))
 }

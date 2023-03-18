@@ -1,6 +1,9 @@
 import isel.leic.UsbPort
 import isel.leic.simul.*
 object HAL {
+    /**fun init() { -> por fazer
+     }
+     */
     fun readBits(mask : Int): Int {
         val maskBitList = decToBitList(mask)
         val usbPortBitList = decToBitList(UsbPort.read())

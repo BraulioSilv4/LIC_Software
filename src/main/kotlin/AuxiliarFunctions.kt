@@ -1,11 +1,12 @@
 import kotlin.math.pow
+import isel.leic.utils.*
 
 /** Converts a decimal number into a list of integers (0s and 1s) representing the same number in binary.
  * @param n number in decimal.
  * @return number in binary.
  */
 fun decToBitList(n: Int): List<Int>{
-    var result = IntArray(8)
+    val result = IntArray(8)
     var num = n
     var i = 0
     while (n > 0 && i < result.size) {

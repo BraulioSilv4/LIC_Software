@@ -1,16 +1,25 @@
-import isel.leic.UsbPort
-import kotlin.math.*
+import kotlin.math.pow
 
-object HAL{
-    fun readBits(mask: Int): Int{
-        val maskBinary = Integer.toBinaryString(mask)
-        val usbRead = Integer.toBinaryString(UsbPort.read())
-        var res = 0
-        for(i in maskBinary.indices){
-            if(maskBinary[i]=='1' && i < usbRead.length){
-                res += ((usbRead[i].digitToInt())*(2.toDouble().pow(i))).toInt()
-            }
-        }
-        return res
+/** Converts a decimal number into a list of integers (0s and 1s) representing the same number in binary.
+ * @param n number in decimal.
+ * @return number in binary.
+ */
+fun decToBitList(n: Int): List<Int>{
+    var result = IntArray(8)
+    var num = n
+    var i = 0
+    while (n > 0 && i < result.size) {
+        result[i++] = num % 2
+        num /= 2
     }
+    return result.reversed()
+}
+/** converts a binary number represented in a list of integers (0s and 1s) into the corresponding decimal number.
+ * @param num list of integers representing a number in binary.
+ * @return number in decimal.
+ */
+fun bitListToDec(num: List<Int>): Int {
+    var result = 0
+    for (i in num.indices){ result += num[i]*(2.0).pow(7-i).toInt() }
+    return result
 }

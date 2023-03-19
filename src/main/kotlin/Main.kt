@@ -1,7 +1,8 @@
 import isel.leic.UsbPort
 import kotlin.math.*
 fun main(){
-    val a = decToBitList(44)
-    println(a)
-    println(bitListToDec(a))
+    UsbPort.read()
+    val a = readln()
+    val b = KBD.getKey()
+    println(b)
 }

@@ -1,5 +1,4 @@
 import kotlin.math.pow
-import isel.leic.utils.*
 
 /** Converts a decimal number into a list of integers (0s and 1s) representing the same number in binary.
  * @param n number in decimal.

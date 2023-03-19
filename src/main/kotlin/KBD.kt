@@ -1,11 +1,12 @@
 import isel.leic.utils.Time
 
 object KBD{
-    const val NONE = ' ';
-    fun getKey(): Char{
+    const val NONE = ' '
+    fun getKey(): Char {
         val kval = HAL.isBit(128)
+        println(kval)
         if (kval) {
-            var key = HAL.readBits(15)
+            val key = HAL.readBits(0xF)
             return when (decToBitList(key)){
                 listOf(0,0,0,0,0,0,0,0) -> '1'
                 listOf(0,0,0,0,0,0,0,1) -> '4'

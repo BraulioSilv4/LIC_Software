@@ -8,7 +8,7 @@ fun decToBitList(n: Int): List<Int>{
     val result = IntArray(8)
     var num = n
     var i = 0
-    while (n > 0 && i < result.size) {
+    while (i < result.size) {
         result[i++] = num % 2
         num /= 2
     }

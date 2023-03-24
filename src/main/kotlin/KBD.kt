@@ -4,7 +4,6 @@ object KBD{
     const val NONE = ' '
     fun getKey(): Char {
         val kval = HAL.isBit(128)
-        println(kval)
         if (kval) {
             val key = HAL.readBits(0xF)
             return when (decToBitList(key)){
@@ -26,7 +25,8 @@ object KBD{
         else return NONE
     }
     fun waitKey(timeout: Long):Char{
-        while (Time.getTimeInMillis() < timeout){
+        val currentTime = Time.getTimeInMillis()
+        while (Time.getTimeInMillis() < currentTime + timeout){
             val a = getKey()
             if (a != NONE) return a else continue
         }

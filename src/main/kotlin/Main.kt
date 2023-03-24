@@ -1,8 +1,11 @@
 import isel.leic.UsbPort
 import kotlin.math.*
 fun main(){
-    UsbPort.read()
-    val a = readln()
-    val b = KBD.getKey()
-    println(b)
+    while (true){
+        val letter = KBD.getKey()
+        if (letter != KBD.NONE){
+            println(letter)
+        }
+        else continue
+    }
 }

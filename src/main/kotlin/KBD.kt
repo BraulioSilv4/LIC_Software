@@ -1,26 +1,31 @@
 import isel.leic.utils.Time
+import kotlin.concurrent.thread
 
 object KBD{
-    const val NONE = ' '
+    const val NONE = 0.toChar()
     fun getKey(): Char {
-        val kval = HAL.isBit(128)
-        if (kval) {
-            val key = HAL.readBits(0xF)
-            return when (decToBitList(key)){
-                listOf(0,0,0,0,0,0,0,0) -> '1'
-                listOf(0,0,0,0,0,0,0,1) -> '4'
-                listOf(0,0,0,0,0,0,1,0) -> '7'
-                listOf(0,0,0,0,0,0,1,1) -> '*'
-                listOf(0,0,0,0,0,1,0,0) -> '2'
-                listOf(0,0,0,0,0,1,0,1) -> '5'
-                listOf(0,0,0,0,0,1,1,0) -> '8'
-                listOf(0,0,0,0,0,1,1,1) -> '0'
-                listOf(0,0,0,0,1,0,0,0) -> '3'
-                listOf(0,0,0,0,1,0,0,1) -> '6'
-                listOf(0,0,0,0,1,0,1,0) -> '9'
-                listOf(0,0,0,0,1,0,1,1) -> '#'
+        if (HAL.isBit(0b10000000)) {
+            val key = when (HAL.readBits(0b1111)){
+                0b0000 -> '1'
+                0b0001 -> '4'
+                0b0010 -> '7'
+                0b0011 -> '*'
+                0b0100 -> '2'
+                0b0101 -> '5'
+                0b0110 -> '8'
+                0b0111 -> '0'
+                0b1000 -> '3'
+                0b1001 -> '6'
+                0b1010 -> '9'
+                0b1011 -> '#'
                 else -> NONE
             }
+            HAL.setBits(128)
+            while (HAL.isBit(128)){
+                 Thread.sleep(50)
+            }
+            HAL.clrBits(128)
+            return key
         }
         else return NONE
     }

@@ -1,13 +1,27 @@
+import java.lang.Math.pow
+import kotlin.math.pow
+
 object LCD{ // Writes to the LCD using the 4-bit interface.
     private const val LINES = 2
     private const val COLS = 16 // Dimensions of the display.
     // Writes a command/data nibble to the LCD in parallel
     private fun writeNibbleParallel(rs: Boolean, data: Int){
+        if (rs){
+            HAL.setBits(0b10000000)
+        }
+        else HAL.clrBits(0b00000000)
         HAL.writeBits(0b1111,data)
     }
     // Writes a command/data nibble to the LCD in series
     private fun writeNibbleSerial(rs: Boolean, data: Int){
-
+        if (rs){
+            HAL.setBits(0b10000000)
+        }
+        else HAL.clrBits(0b10000000)
+        for (i in 0 until 4){
+            val mask = pow(2.0,i.toDouble()).toInt()
+            HAL.writeBits(i,data)
+        }
     }
     // Writes a command/data nibble to the LCD
     private fun writeNibble(rs: Boolean, data: Int) {
@@ -19,11 +33,11 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
     }
     // Writes a command to the LCD
     private fun writeCMD(data: Int){
-
+        writeNibble(true,data)
     }
     // Writes data to the LCD
     private fun writeDATA(data: Int) {
-
+        writeNibble(false,data)
     }
     // Sends the initialization sequence for 4-bit communication.
     fun init() {

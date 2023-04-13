@@ -8,7 +8,7 @@ object HAL {
         return UsbPort.read() and mask
     }
     fun isBit(mask:Int): Boolean {
-        return (UsbPort.read() and mask != 0)
+        return (readBits(mask) != 0)
     }
     fun writeBits(mask: Int,value: Int){
         currentOutput = (mask and value) or (currentOutput and mask.inv())

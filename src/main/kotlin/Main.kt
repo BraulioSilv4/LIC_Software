@@ -1,18 +1,26 @@
 import isel.leic.UsbPort
-import java.util.HexFormat
-import kotlin.math.*
 fun main(){
     LCD.init()
-    LCD.write("A")
-    Thread.sleep(2000)
-    LCD.clear()
-    LCD.cursor(1,4)
-    LCD.write('A')
+    var counter = 0
+    var a = 0
+    val b = "ABC"
+    var line = 0
+    var col = 0
     while (true){
-        val a = KBD.waitKey(1000)
-        if (a != KBD.NONE){
-            println(a)
+        while (col < 14){
+            LCD.clear()
+            LCD.cursor(line,col)
+            LCD.write(b)
+            Thread.sleep(150)
+            col++
         }
-        else continue
+        col--
+        while (col > 0){
+            LCD.clear()
+            LCD.cursor(line,col)
+            LCD.write(b)
+            Thread.sleep(150)
+            col--
+        }
     }
 }

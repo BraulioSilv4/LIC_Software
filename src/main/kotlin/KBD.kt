@@ -3,6 +3,15 @@ import kotlin.concurrent.thread
 
 object KBD{
     const val NONE = 0.toChar()
+    private var initialized = false
+    fun init() {
+        if (!initialized) {
+            println("Initializing KBD object...")
+            HAL.clrBits(128)
+            initialized = true
+            println("Object initialized.")
+        }
+    }
     fun getKey(): Char {
         if (HAL.isBit(0b10000000)) {
             val key = when (HAL.readBits(0b1111)){
@@ -32,8 +41,8 @@ object KBD{
     fun waitKey(timeout: Long):Char{
         val currentTime = Time.getTimeInMillis()
         while (Time.getTimeInMillis() < currentTime + timeout){
-            val a = getKey()
-            if (a != NONE) return a else continue
+            val key = getKey()
+            if (key != NONE) return key else continue
         }
         return NONE
     }

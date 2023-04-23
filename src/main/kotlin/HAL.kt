@@ -1,9 +1,16 @@
 import isel.leic.UsbPort
 object HAL {
     var currentOutput = 0b00000000
-    /**fun init() { -> por fazer
-     }
-     */
+    private var initialized = false
+    fun init() {
+        if (!initialized) {
+            println("Initializing HAL object...")
+            clrBits(0b11111111)
+            currentOutput = 0
+            initialized = true
+            println("Object initialized.")
+        }
+    }
     fun readBits(mask : Int): Int {
         return UsbPort.read() and mask
     }

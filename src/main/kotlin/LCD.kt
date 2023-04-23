@@ -64,7 +64,10 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
         writeCMD(0b00101000)
         writeCMD(0b00001000)
         writeCMD(0b00000001)
+        writeCMD(0b00000110)
+        //Coloca a direçao do cursor, 1 = incrementa, e coloca o "Accompanies display shift" = 0 porque nao sei o que faz
         writeCMD(0b00001111)
+        //Liga o display cursor e o blinking
     }
     // Writes a character at the current position.
     fun write(c:Char) {

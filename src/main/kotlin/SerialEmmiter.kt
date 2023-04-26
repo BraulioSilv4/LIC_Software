@@ -8,7 +8,7 @@ object SerialEmmiter { // Envia tramas para os diferentes módulos Serial Receiv
         val maxClk = 5
         while (count < maxClk){
             TimeUnit.NANOSECONDS.sleep(20)
-            val dataWrite = 0b01 + data[count]
+            val dataWrite = 0b010 + data[count]
             HAL.writeBits(0b111,dataWrite)
             TimeUnit.NANOSECONDS.sleep(20)
             HAL.clrBits(0b10)

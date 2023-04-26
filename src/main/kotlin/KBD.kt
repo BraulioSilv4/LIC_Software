@@ -4,16 +4,15 @@ import kotlin.concurrent.thread
 object KBD{
     const val NONE = 0.toChar()
     private var initialized = false
+
     fun init() {
         if (!initialized) {
-            println("Initializing KBD object...")
             HAL.clrBits(128)
             initialized = true
-            println("Object initialized.")
         }
     }
     fun getKey(): Char {
-        if (HAL.isBit(0b10000000)) {
+        if (HAL.isBit(0b10000000)) {//check Kval
             val key = when (HAL.readBits(0b1111)){
                 0b0000 -> '1'
                 0b0001 -> '4'
@@ -29,11 +28,11 @@ object KBD{
                 0b1011 -> '#'
                 else -> NONE
             }
-            HAL.setBits(128)
-            while (HAL.isBit(128)){
+            HAL.setBits(128) // Kack -> '1'
+            while (HAL.isBit(128)){ //check Kval
                  Thread.sleep(50)
             }
-            HAL.clrBits(128)
+            HAL.clrBits(128) // Kack -> '0'
             return key
         }
         else return NONE

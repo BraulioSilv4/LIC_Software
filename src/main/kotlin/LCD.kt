@@ -20,19 +20,13 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
 
     // Writes a command/data nibble to the LCD in series.
     private fun writeNibbleSerial(rs: Boolean, data: Int){
-        if (rs){
-            HAL.setBits(0b10000000)
-        }
-        else HAL.clrBits(0b10000000)
-        for (i in 0 until 4){
-            val mask = pow(2.0,i.toDouble()).toInt()
-            HAL.writeBits(mask,data)
-        }
+        val dataSend = if (rs) 0b10000 or data else data
+        SerialEmmiter.send(SerialEmmiter.Destination.LCD,dataSend)
     }
 
     // Writes a command/data nibble to the LCD.
     fun writeNibble(rs: Boolean, data: Int) {
-        writeNibbleParallel(rs,data)
+        writeNibbleSerial(rs,data)
     }
 
     // Writes a command/data byte to the LCD.
@@ -70,7 +64,7 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
         //Liga o display cursor e o blinking
     }
     // Writes a character at the current position.
-    fun write(c:Char) {
+    fun write(c:Char){
         writeDATA(c.code)
     }
 

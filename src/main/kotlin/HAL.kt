@@ -4,11 +4,9 @@ object HAL {
     private var initialized = false
     fun init() {
         if (!initialized) {
-            println("Initializing HAL object...")
             clrBits(0b11111111)
             currentOutput = 0
             initialized = true
-            println("Object initialized.")
         }
     }
     fun readBits(mask : Int): Int {

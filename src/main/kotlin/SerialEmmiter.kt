@@ -16,4 +16,6 @@ object SerialEmmiter { // Envia tramas para os diferentes módulos Serial Receiv
         }
         HAL.setBits(0b100)
     }
+
+    fun isBusy(): Boolean =
 }

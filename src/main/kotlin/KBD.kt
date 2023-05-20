@@ -1,6 +1,4 @@
 import isel.leic.utils.Time
-import kotlin.concurrent.thread
-
 object KBD{
     const val NONE = 0.toChar()
     private var initialized = false
@@ -12,27 +10,27 @@ object KBD{
         }
     }
     fun getKey(): Char {
-        if (HAL.isBit(0b10000000)) {//check Kval
-            val key = when (HAL.readBits(0b1111)){
-                0b0000 -> '1'
-                0b0001 -> '4'
-                0b0010 -> '7'
-                0b0011 -> '*'
-                0b0100 -> '2'
-                0b0101 -> '5'
-                0b0110 -> '8'
-                0b0111 -> '0'
-                0b1000 -> '3'
-                0b1001 -> '6'
-                0b1010 -> '9'
-                0b1011 -> '#'
+        if (HAL.isBit(0x80)) {
+            val key = when (HAL.readBits(0x0F)){
+                0x00 -> '1'
+                0x01 -> '4'
+                0x02 -> '7'
+                0x03 -> '*'
+                0x04 -> '2'
+                0x05 -> '5'
+                0x06 -> '8'
+                0x07 -> '0'
+                0x08 -> '3'
+                0x09 -> '6'
+                0x0A -> '9'
+                0x0B -> '#'
                 else -> NONE
             }
-            HAL.setBits(128) // Kack -> '1'
-            while (HAL.isBit(128)){ //check Kval
+            HAL.setBits(0x80)
+            while (HAL.isBit(0x80)){
                  Thread.sleep(50)
             }
-            HAL.clrBits(128) // Kack -> '0'
+            HAL.clrBits(0x80)
             return key
         }
         else return NONE

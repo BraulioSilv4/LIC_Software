@@ -1,4 +1,6 @@
-import kotlin.math.pow
+import java.io.BufferedReader
+import java.io.FileReader
+import java.io.PrintWriter
 
 /** Converts a decimal number into a list of integers (0s and 1s) representing the same number in binary.
  * @param n number in decimal.
@@ -13,4 +15,12 @@ fun decToBitList(n: Int): List<Int>{
         num /= 2
     }
     return result.reversed()
+}
+
+fun createReader(fileName: String): BufferedReader {
+    return BufferedReader(FileReader(fileName))
+}
+
+fun createWriter(fileName: String?): PrintWriter {
+    return PrintWriter(fileName)
 }

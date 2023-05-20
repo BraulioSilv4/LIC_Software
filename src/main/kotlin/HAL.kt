@@ -5,7 +5,6 @@ object HAL {
     fun init() {
         if (!initialized) {
             clrBits(0b11111111)
-            currentOutput = 0
             initialized = true
         }
     }

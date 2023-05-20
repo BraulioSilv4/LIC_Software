@@ -1,26 +1,19 @@
-import isel.leic.UsbPort
-fun main(){
+import java.util.concurrent.TimeUnit
+
+fun main() {
+    HAL.init()
+    KBD.init()
+    SerialEmmiter.init()
     LCD.init()
-    var counter = 0
-    var a = 0
-    val b = "ABC"
-    var line = 0
-    var col = 0
-    while (true){
-        while (col < 14){
-            LCD.clear()
-            LCD.cursor(line,col)
-            LCD.write(b)
-            Thread.sleep(150)
-            col++
-        }
-        col--
-        while (col > 0){
-            LCD.clear()
-            LCD.cursor(line,col)
-            LCD.write(b)
-            Thread.sleep(150)
-            col--
-        }
+    DoorMechanism.init()
+    DoorMechanism.open(0b0001)
+    FileAcess.getUsers()
+    FileAcess.addUser(User(1,2,"d"))
+    FileAcess.writeUsers()
+    TimeUnit.SECONDS.sleep(10)
+    DoorMechanism.close(0b0001)
+    while (true) {
+        TimeUnit.SECONDS.sleep(1)
+        println(DoorMechanism.finished())
     }
 }

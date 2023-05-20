@@ -1,23 +1,20 @@
+import java.io.Serial
+
 object DoorMechanism {
-    // Inicia a classe, estabelecendo os valores iniciais.
+    // Initializes the class, establishing initial values.
     fun init() {
 
     }
-
-    // Envia comando para abrir a porta, com o parâmetro de velocidade
+    // Sends a command to open the door with the given velocity parameter
     fun open(velocity: Int) {
-
+        val data = velocity shl(1) or 1
+        SerialEmmiter.send(SerialEmmiter.Destination.DOOR,data)
     }
-    // Envia comando para fechar a porta, com o parâmetro de velocidade
+    // Sends a command to close the door with the given velocity parameter
     fun close(velocity: Int) {
-
+        val data = velocity shl(1)
+        SerialEmmiter.send(SerialEmmiter.Destination.DOOR,data)
     }
-
-    // Verifica se o comando anterior está concluído
-    fun finished() : Boolean {
-
-
-        return
-    }
-
+    // Checks if the previous command has finished
+    fun finished() : Boolean = SerialEmmiter.isBusy()
 }

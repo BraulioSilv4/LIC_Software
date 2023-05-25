@@ -1,9 +1,6 @@
-import java.lang.Math.pow
-import java.util.ListResourceBundle
-import kotlin.concurrent.thread
-import kotlin.math.pow
 
 object LCD{ // Writes to the LCD using the 4-bit interface.
+    private val series = true
     private const val LINES = 2
     private const val COLS = 16 // Dimensions of the display.
     var initialized = false
@@ -11,32 +8,31 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
     // Writes a command/data nibble to the LCD in parallel.
      private fun writeNibbleParallel(rs: Boolean, data: Int){
         if (rs){
-            HAL.setBits(0b00010000)
+            HAL.setBits(0x10)
         }
-        else HAL.clrBits(0b00010000)
-        HAL.setBits(0b100000)
-        HAL.writeBits(0b1111,data)
-        HAL.clrBits(0b100000)
+        else HAL.clrBits(0x10)
+        HAL.setBits(0x20)
+        HAL.writeBits(0xF,data)
+        HAL.clrBits(0x20)
     }
 
     // Writes a command/data nibble to the LCD in series.
     private fun writeNibbleSerial(rs: Boolean, data: Int){
-        val dataSend = if (rs) (0b00001 or (data shl(1))) else data shl(1)
+        val dataSend = if (rs) (1 or (data shl(1))) else data shl(1)
         SerialEmmiter.send(SerialEmmiter.Destination.LCD,dataSend)
     }
 
     // Writes a command/data nibble to the LCD.
     fun writeNibble(rs: Boolean, data: Int) {
-        writeNibbleSerial(rs,data)
+        if (series) writeNibbleSerial(rs,data) else writeNibbleParallel(rs,data)
     }
 
     // Writes a command/data byte to the LCD.
     private fun writeByte(rs: Boolean, data: Int){
-        val low = data and 0b1111
-        val high = (data and 0b11110000) shr(4)
+        val low = data and 0xF
+        val high = (data and 0xF0) shr(4)
         writeNibble(rs,high)
         writeNibble(rs,low)
-
     }
 
     // Writes a command to the LCD.
@@ -57,10 +53,12 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
             Thread.sleep(4, 100000)
             writeNibble(false, 0b0011)
             Thread.sleep(0, 100000)
-            writeCMD(0b00110010)
+            writeNibble(false, 0b0011)
+            writeNibble(false,0b0010)
             writeCMD(0b00101000)
             writeCMD(0b00001000)
             writeCMD(0b00000001)
+            writeCMD(0b00000110)
             writeCMD(0b00001111)
             initialized = true
         }
@@ -100,6 +98,6 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
     }
     // Sends a command to clear the screen and position the cursor at (0,0).
     fun clear(){
-        writeCMD(0x01)
+        writeCMD(1)
     }
 }

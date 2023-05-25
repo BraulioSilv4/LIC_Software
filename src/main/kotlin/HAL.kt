@@ -4,7 +4,7 @@ object HAL {
     private var initialized = false
     fun init() {
         if (!initialized) {
-            clrBits(0b11111111)
+            clrBits(0xFF)
             initialized = true
         }
     }

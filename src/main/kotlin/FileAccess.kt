@@ -1,44 +1,22 @@
-import java.util.concurrent.TimeUnit
-
-data class User(val Id: Int, val password: Int, val name : String, val phrase: String? = null)
 
 object FileAccess{
-    val users = arrayOfNulls<User>(1000)
-
-    fun getUsers(){
-        val reader = createReader("USERS.txt")
+    fun read(file:String): List<String?>{
+        val reader = createReader(file)
         var line: String? = reader.readLine()
-        var i = 0
+        var data = mutableListOf(line)
         while (line != null){
-            val data = line.split(';')
-            users[i] = User(data[0].toInt(),data[1].toInt(),data[2],data[3])
-            line = reader.readLine()
-            i++
+            data.add(line)
+            line = readLine()
         }
-        println(users.toList())
+        return data
     }
-
-    fun writeUsers(){
-        val writer = createWriter("USERS.txt")
-        var i = 0
-        while (users[i] != null){
-            writer.println("${users[i]?.Id};${users[i]?.password};${users[i]?.name};${users[i]?.phrase?: ""}")
-            i++
+    fun writeData(data:String, file:String){
+        val writer = createWriter(file)
+        val currentData = read(file).toMutableList()
+        currentData.add(data)
+        currentData.forEach{
+            writer.println(it)
         }
         writer.close()
-    }
-
-    fun addUser(user: User){
-        var i = 0
-        while (users[i] != null){
-            if(users[i]?.Id == user.Id) {
-                LCD.write("ID already exists.")
-                TimeUnit.SECONDS.sleep(2)
-                LCD.clear()
-                return
-            }
-            i++
-        }
-        users[i] = user
     }
 }

@@ -1,5 +1,3 @@
-26-05-2023 15:37 - The user 4 accessed the system.
 26-05-2023 15:44 - The user Alan Turing accessed the system.
-26-05-2023 15:56 - The user GDASD accessed the system.
 26-05-2023 16:04 - The user Alan Turing accessed the system.
 26-05-2023 16:11 - The user Alan Turing accessed the system.

@@ -1,8 +1,8 @@
 object Maintenance {
     fun maint(){
         LCD.clear()
-        LCD.write("Out of Service1")
-        while (HAL.isBit(0x20)){
+        LCD.write("Out of Service")
+        while (HAL.isBit(0x20) && !closed){
             println("Please select the desired option")
             println("1 - Add user")
             println("2 - Remove a user")
@@ -65,6 +65,7 @@ object Maintenance {
         println("Are you sure you want to shutdown the system? Y/N")
         val answer = readln()[0].uppercaseChar()
         if (answer == 'Y') {
+            println(Users.users1.toList())
             Users.updateUsers()
             closed = true
         }

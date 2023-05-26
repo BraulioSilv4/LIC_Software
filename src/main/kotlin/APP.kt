@@ -19,6 +19,7 @@ object APP {
             TimeUnit.SECONDS.sleep(2)
             TUI.getPIN()
         }
+        println("checkuser: $uin, $pin")
         if (uin == null || pin == null) getUser()
         else if(Users.userExists(uin) && Users.userAuthentic(uin,pin)) {
             return Users.users1[uin.toInt()]

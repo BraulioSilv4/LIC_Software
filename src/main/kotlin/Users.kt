@@ -12,26 +12,33 @@ object Users {
     }
     fun userAuthentic(user:String,pin:String):Boolean {
         println("User : $user, pin: $pin")
-        return users1[user.toInt()]!!.pin == pin
+        return users1[user.toInt()]!!.pin.toInt() == pin.toInt()
     }
 
      fun userExists(uin: String): Boolean {
-         println(uin)
+         println(uin.toInt())
         var l = 0
         var r = users1.size-1
         while (l < r) {
             val mid = l + (r - l) / 2
             if (users1[mid] == null){
+                println(users1[mid] )
                 r = mid - 1
             }
-            else if (users1[mid]?.uin == uin) return true
+            else if (users1[mid]?.uin?.toInt() == uin.toInt()) {
+                println("yes")
+                return true
+            }
             else if (users1[mid]?.uin?.toInt()!! < uin.toInt()){
+                println(users1[mid])
                 l = mid+1
             }
             else {
+                println(users1[mid])
                 r = mid - 1
             }
         }
+         println("no")
         return false
     }
     fun addUser(uin: String,pin:String,name:String,phrase: String? = null){
@@ -48,6 +55,7 @@ object Users {
      fun updateUsers() {
         val listToWrite = mutableListOf<String>()
         for (user in users1) {
+            println(user)
             if (user == null) continue
             val userWrite = "${user.uin};${user.pin};${user.name};${user.phrase ?: ""}"
             listToWrite += userWrite
@@ -61,6 +69,7 @@ object Users {
             val answer = readln()[0].uppercaseChar()
             if (answer == 'Y') {
                 users1[uin.toInt()] = null
+                println(users1.toList())
                 println("User removed successfully")
             }
         }

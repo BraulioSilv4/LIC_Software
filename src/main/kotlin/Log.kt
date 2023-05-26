@@ -13,7 +13,7 @@ object Log {
     }
     private fun accessTriedReg(accessAllowed: Boolean, user: User, time: String) =
         if (accessAllowed)
-            "$time - The user ${user.uin} accessed the system."
+            "$time - The user ${user.name} accessed the system."
         else
             "$time - Unknown user tried to access the system!"
 }

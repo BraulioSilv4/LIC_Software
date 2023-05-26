@@ -1,6 +1,6 @@
 import isel.leic.UsbPort
 object HAL {
-    var currentOutput = 0b00000000
+    var currentOutput = 0
     private var initialized = false
     fun init() {
         if (!initialized) {

@@ -1,5 +1,5 @@
 var closed = false
-data class User(val uin: String, var pin: String, val name:String, var phrase:String? = null)
+data class User(val ID: Int, var pin: Int, val name:String, var phrase:String? = null)
 const val KEYPRESS_MAX_WAIT_TIME = 5000.toLong()
 fun init(){
     print("Initializing System...")
@@ -12,15 +12,5 @@ fun init(){
 }
 fun main() {
    init()
-    Thread.sleep(2000)
     APP.runAPP()
-}
-
-fun shutDown(){
-    println("Are you sure? Y/N")
-    val answer = readln()
-    if (answer == "Y") {
-      Users.updateUsers()
-      closed = true
-    }
 }

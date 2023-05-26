@@ -5,9 +5,8 @@ object FileAccess{
     fun read(file:String): List<String?>{
         val reader = createReader(file)
         val data = mutableListOf<String>()
-        BufferedReader(FileReader(file)).forEachLine {line ->
+        reader.forEachLine {line ->
             data.add(line)
-
         }
         println(data)
         return data.toList()

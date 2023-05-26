@@ -1,3 +1,5 @@
+import kotlin.system.exitProcess
+
 object Maintenance {
     fun maint(){
         LCD.clear()
@@ -19,9 +21,9 @@ object Maintenance {
     }
     private fun addUser() {
         var availableId = -1
-        for (user in Users.users1.indices){
-            if (Users.users1[user] == null){
-                 availableId = user
+        for (id in Users.userList.indices){
+            if (Users.userList[id] == null){
+                 availableId = id
                 break
             }
         }
@@ -35,7 +37,7 @@ object Maintenance {
             }
             println("Insert name:")
             val name = readln()
-            Users.addUser(availableId.toString(),answer.toString(),name)
+            Users.addUser(availableId,answer,name)
         }
     }
 
@@ -46,29 +48,29 @@ object Maintenance {
             println("PIN too large.")
             return
         }
-        Users.removeUser(answer.toString())
+        Users.removeUser(answer)
     }
 
     private fun insertMessage(){
-        println("Insert the uID of the user to remove(3 numbers)")
+        println("Insert the uID of the user to insert message(3 numbers)")
         val answer = readln().toInt()
         if (answer.toString().length > 3){
-            println("PIN too large.")
+            println("UID too large.")
             return
         }
         println("Insert the desired message:")
         val message = readln()
-        Users.addUserMessage(answer.toString(),message)
+        Users.addUserMessage(answer,message)
     }
 
     private fun shutDown(){
         println("Are you sure you want to shutdown the system? Y/N")
         val answer = readln()[0].uppercaseChar()
         if (answer == 'Y') {
-            println(Users.users1.toList())
             Users.updateUsers()
-            closed = true
+            exitProcess(0)
         }
         else return
     }
+
 }

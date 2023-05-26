@@ -3,9 +3,10 @@ const val PIN_SIZE = 4
 
 object TUI {
 
-    fun getUIN(): String? {
+    fun getUIN(): Int? {
         LCD.clear()
-        LCD.write("Insert UIN: ")
+        LCD.write("Insert UIN:???")
+        LCD.cursor(0,11)
         var uin = ""
 
         repeat(UIN_SIZE) {
@@ -23,12 +24,13 @@ object TUI {
             }
         }
         LCD.clear()
-        return uin
+        println(uin.toInt())
+        return uin.toInt()
     }
 
-     fun getPIN(): String? {
+     fun getPIN(message:String): Int? {
         LCD.clear()
-        LCD.write("Insert PIN: ")
+        LCD.write(message)
         var pin = ""
 
         repeat(PIN_SIZE) {
@@ -43,6 +45,7 @@ object TUI {
                 return null
             }
         }
-        return pin
+         println(pin.toInt())
+        return pin.toInt()
     }
 }

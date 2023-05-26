@@ -1,84 +1,81 @@
 
 object Users {
-    public var users1 = getUsers()
+    public var userList = getUsers()
     fun getUsers():Array<User?>{
         val list = FileAccess.read("USERS.txt")
         val users = arrayOfNulls<User>(1000)
         list.forEach() {
             val info = it!!.split(";")
-            users[info[0].toInt()] = User(info[0], info[1], info[2],info[3])
+            users[info[0].toInt()] = User(info[0].toInt(), info[1].toInt(), info[2],info[3])
         }
         return users
     }
-    fun userAuthentic(user:String,pin:String):Boolean {
-        println("User : $user, pin: $pin")
-        return users1[user.toInt()]!!.pin.toInt() == pin.toInt()
+    fun userAuthentic(id:Int, pin:Int):Boolean {
+        println("User : $id, pin: $pin")
+        return userList[id]!!.pin == pin
     }
 
-     fun userExists(uin: String): Boolean {
-         println(uin.toInt())
+     fun userExists(id: Int): Boolean {
+         for (user in userList){
+             if (user == null) continue
+             else if (user.ID == id) return true
+         }
+         return false
         var l = 0
-        var r = users1.size-1
+        var r = userList.size-1
         while (l < r) {
             val mid = l + (r - l) / 2
-            if (users1[mid] == null){
-                println(users1[mid] )
+            if (userList[mid] == null){
                 r = mid - 1
             }
-            else if (users1[mid]?.uin?.toInt() == uin.toInt()) {
+            else if (userList[mid]?.ID == id) {
                 println("yes")
                 return true
             }
-            else if (users1[mid]?.uin?.toInt()!! < uin.toInt()){
-                println(users1[mid])
+            else if (userList[mid]?.ID!! < id){
                 l = mid+1
             }
             else {
-                println(users1[mid])
                 r = mid - 1
             }
         }
-         println("no")
         return false
     }
-    fun addUser(uin: String,pin:String,name:String,phrase: String? = null){
-        if (userExists(uin)) {
-            println("Id already exists")
+    fun addUser(id: Int,pin:Int,name:String,phrase: String? = null){
+        if (userExists(id)) {
+            println("ID already exists")
         }
         else {
-            users1[uin.toInt()] = User(uin,pin,name,phrase)
-            println("Added user : ${users1[uin.toInt()]!!.name}")
+            userList[id] = User(id,pin,name,phrase)
+            println("Added user : ${userList[id]!!.name} with the ID : $id")
         }
-        updateUsers()
     }
 
      fun updateUsers() {
         val listToWrite = mutableListOf<String>()
-        for (user in users1) {
-            println(user)
+        for (user in userList) {
             if (user == null) continue
-            val userWrite = "${user.uin};${user.pin};${user.name};${user.phrase ?: ""}"
+            val userWrite = "${user.ID};${user.pin};${user.name};${user.phrase ?: ""}"
             listToWrite += userWrite
         }
         FileAccess.writeData(listToWrite,"USERS.txt")
     }
 
-    fun removeUser(uin: String){
-        if (userExists(uin)){
-            println("Remove user ${users1[uin.toInt()]!!.name}? Y/N")
+    fun removeUser(id: Int){
+        if (userExists(id)){
+            println("Remove user ${userList[id]!!.name}? Y/N")
             val answer = readln()[0].uppercaseChar()
             if (answer == 'Y') {
-                users1[uin.toInt()] = null
-                println(users1.toList())
+                userList[id] = null
                 println("User removed successfully")
             }
         }
         else println("User doesn't exist")
     }
 
-    fun addUserMessage(uin: String,message:String){
-        if (userExists(uin)){
-            users1[uin.toInt()]!!.phrase = message
+    fun addUserMessage(id: Int, message:String){
+        if (userExists(id)){
+            userList[id]!!.phrase = message
         }
         else println("User does not exist.")
     }

@@ -28,11 +28,11 @@ object SerialEmmiter { // Envia tramas para os diferentes módulos Serial Receiv
     fun send(addr: Destination, data: Int) {
         if (addr == Destination.LCD) HAL.clrBits(LCDSEL) else HAL.clrBits(DCSEL)
         for (count in 0 until 5)  {
-            Thread.sleep(5)
+            Thread.sleep(0,20)
             HAL.clrBits(SClk)
             val dataWrite = data shr(count) and SDX
             HAL.writeBits(SDX,dataWrite)
-            Thread.sleep(5)
+            Thread.sleep(0,20)
             HAL.setBits(SClk)
         }
         HAL.clrBits(SClk)

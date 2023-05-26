@@ -1,4 +1,4 @@
-
+var closed = false
 fun init(){
     print("Initializing System...")
     HAL.init()
@@ -10,5 +10,13 @@ fun init(){
 }
 fun main() {
    init()
-    LCD.write('A')
+}
+
+fun shutDown(){
+    println("Are you sure? Y/N")
+    val answer = readln()
+    if (answer == "Y") {
+      Users.updateUsers()
+      closed = true
+    }
 }

@@ -1,20 +1,20 @@
+import java.io.BufferedReader
+import java.io.FileReader
 
 object FileAccess{
     fun read(file:String): List<String?>{
         val reader = createReader(file)
-        var line: String? = reader.readLine()
-        var data = mutableListOf(line)
-        while (line != null){
+        val data = mutableListOf<String>()
+        BufferedReader(FileReader(file)).forEachLine {line ->
             data.add(line)
-            line = readLine()
+
         }
-        return data
+        println(data)
+        return data.toList()
     }
-    fun writeData(data:String, file:String){
+    fun writeData(data:List<String?>, file:String){
         val writer = createWriter(file)
-        val currentData = read(file).toMutableList()
-        currentData.add(data)
-        currentData.forEach{
+        data.forEach{
             writer.println(it)
         }
         writer.close()

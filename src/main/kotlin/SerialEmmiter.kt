@@ -35,7 +35,7 @@ object SerialEmmiter { // Envia tramas para os diferentes módulos Serial Receiv
             Thread.sleep(5)
             HAL.setBits(SClk)
         }
-        HAL.clrBits(2)
+        HAL.clrBits(SClk)
         if (addr == Destination.LCD) HAL.setBits(LCDSEL) else HAL.setBits(DCSEL)
     }
     /** Checks if the SDC is busy

@@ -28,7 +28,7 @@ object KBD{
             }
             HAL.setBits(0x80)
             while (HAL.isBit(0x80)){
-                 Thread.sleep(50)
+                Thread.sleep(50)
             }
             HAL.clrBits(0x80)
             return key

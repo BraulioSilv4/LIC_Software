@@ -1,6 +1,3 @@
-import java.util.StringJoiner
-
-data class User(val uin: String, val pin: String, val name:String, var phrase:String? = null)
 
 object Users {
     public var users1 = getUsers()
@@ -13,7 +10,13 @@ object Users {
         }
         return users
     }
-    private fun userExists(uin: String): Boolean {
+    fun userAuthentic(user:String,pin:String):Boolean {
+        println("User : $user, pin: $pin")
+        return users1[user.toInt()]!!.pin == pin
+    }
+
+     fun userExists(uin: String): Boolean {
+         println(uin)
         var l = 0
         var r = users1.size-1
         while (l < r) {
@@ -35,7 +38,10 @@ object Users {
         if (userExists(uin)) {
             println("Id already exists")
         }
-        else users1[uin.toInt()] = User(uin,pin,name,phrase)
+        else {
+            users1[uin.toInt()] = User(uin,pin,name,phrase)
+            println("Added user : ${users1[uin.toInt()]!!.name}")
+        }
         updateUsers()
     }
 
@@ -52,33 +58,20 @@ object Users {
     fun removeUser(uin: String){
         if (userExists(uin)){
             println("Remove user ${users1[uin.toInt()]!!.name}? Y/N")
-            val answer = readln()
-            if (answer == "Y") {
+            val answer = readln()[0].uppercaseChar()
+            if (answer == 'Y') {
                 users1[uin.toInt()] = null
                 println("User removed successfully")
             }
         }
         else println("User doesn't exist")
     }
+
     fun addUserMessage(uin: String,message:String){
         if (userExists(uin)){
             users1[uin.toInt()]!!.phrase = message
         }
         else println("User does not exist.")
     }
-    fun shutDown(){
-        println("Are you sure? Y/N")
-        val answer = readln()
-        if (answer == "Y") {
-            val listToWrite = mutableListOf<String>()
-            for (user in users1) {
-                if (user == null) continue
-                val userWrite = "${user.uin};${user.pin};${user.name};${user.phrase ?: ""}"
-                listToWrite += userWrite
-            }
-            FileAccess.writeData(listToWrite, "USERS.txt")
-            TODO()
-        }
-        else TODO()
-    }
+
 }

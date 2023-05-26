@@ -1,6 +1,7 @@
+const val UIN_SIZE = 3
+const val PIN_SIZE = 4
+
 object TUI {
-    private const val UIN_SIZE = 3
-    private const val PIN_SIZE = 4
 
     fun getUIN(): String? {
         LCD.clear()
@@ -10,12 +11,14 @@ object TUI {
         repeat(UIN_SIZE) {
             val key = KBD.waitKey(5000)
             if(key != KBD.NONE){
+                LCD.write(key)
                 uin += key
             }
             else {
                 LCD.clear()
                 LCD.write("Timed Out.")
                 Thread.sleep(2000)
+                LCD.clear()
                 return null
             }
         }
@@ -31,6 +34,7 @@ object TUI {
         repeat(PIN_SIZE) {
             val key = KBD.waitKey(5000)
             if (key != KBD.NONE) {
+                LCD.write('*')
                 pin += key
             } else {
                 LCD.clear()

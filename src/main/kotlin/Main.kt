@@ -1,4 +1,6 @@
 var closed = false
+data class User(val uin: String, var pin: String, val name:String, var phrase:String? = null)
+const val KEYPRESS_MAX_WAIT_TIME = 5000.toLong()
 fun init(){
     print("Initializing System...")
     HAL.init()
@@ -10,6 +12,8 @@ fun init(){
 }
 fun main() {
    init()
+    Thread.sleep(2000)
+    APP.runAPP()
 }
 
 fun shutDown(){

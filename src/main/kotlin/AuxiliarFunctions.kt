@@ -7,7 +7,7 @@ import java.io.PrintWriter
 * @return number in binary.
 */
 fun decToBitList(n: Int): List<Int>{
-    val result = IntArray(8)
+    val result = IntArray(5)
     var num = n
     var i = 0
     while (i < result.size) {

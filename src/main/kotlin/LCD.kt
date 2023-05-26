@@ -24,7 +24,7 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
 
     // Writes a command/data nibble to the LCD.
     fun writeNibble(rs: Boolean, data: Int) {
-        if (series) writeNibbleSerial(rs,data) else writeNibbleParallel(rs,data)
+        writeNibbleSerial(rs,data)
     }
 
     // Writes a command/data byte to the LCD.
@@ -53,8 +53,7 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
             Thread.sleep(4, 100000)
             writeNibble(false, 0b0011)
             Thread.sleep(0, 100000)
-            writeNibble(false, 0b0011)
-            writeNibble(false,0b0010)
+            writeCMD(0b00110010)
             writeCMD(0b00101000)
             writeCMD(0b00001000)
             writeCMD(0b00000001)

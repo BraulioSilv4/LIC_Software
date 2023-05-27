@@ -1,8 +1,9 @@
-const val UIN_SIZE = 3
-const val PIN_SIZE = 4
-
 object TUI {
 
+
+    /** Attempts to read a uID from the hardware for 5 seconds.
+     * @return given uID or null if the attempt to read was unsuccessful.
+     */
     fun getUIN(): Int? {
         LCD.clear()
         LCD.write("Insert UIN:???")
@@ -24,10 +25,13 @@ object TUI {
             }
         }
         LCD.clear()
-        println(uin.toInt())
         return uin.toInt()
     }
 
+
+    /** Attempts to read a PIN from the hardware for 5 seconds.
+     * @return given PIN or null if the attempt to read was unsuccessful.
+     */
      fun getPIN(message:String): Int? {
         LCD.clear()
         LCD.write(message)
@@ -45,7 +49,6 @@ object TUI {
                 return null
             }
         }
-         println(pin.toInt())
         return pin.toInt()
     }
 }

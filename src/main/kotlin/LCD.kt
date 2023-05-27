@@ -23,8 +23,8 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
     }
 
     // Writes a command/data nibble to the LCD.
-    fun writeNibble(rs: Boolean, data: Int) {
-        writeNibbleSerial(rs,data)
+    private fun writeNibble(rs: Boolean, data: Int) {
+        if (series) writeNibbleSerial(rs,data) else writeNibbleParallel(rs,data)
     }
 
     // Writes a command/data byte to the LCD.
@@ -96,7 +96,5 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
         
     }
     // Sends a command to clear the screen and position the cursor at (0,0).
-    fun clear(){
-        writeCMD(1)
-    }
+    fun clear(){ writeCMD(1) }
 }

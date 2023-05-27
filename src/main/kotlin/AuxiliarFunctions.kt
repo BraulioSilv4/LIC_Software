@@ -2,25 +2,17 @@ import java.io.BufferedReader
 import java.io.FileReader
 import java.io.PrintWriter
 
-/** Converts a decimal number into a list of integers (0s and 1s) representing the same number in binary.
- * @param n number in decimal.
-* @return number in binary.
-*/
-fun decToBitList(n: Int): List<Int>{
-    val result = IntArray(5)
-    var num = n
-    var i = 0
-    while (i < result.size) {
-        result[i++] = num % 2
-        num /= 2
-    }
-    return result.reversed()
-}
-
+/** Creates a reader which allows to read data from a given file
+ * @param fileName name of the file
+ */
 fun createReader(fileName: String): BufferedReader {
     return BufferedReader(FileReader(fileName))
 }
 
-fun createWriter(fileName: String?): PrintWriter {
+
+/** Creates a writer which allows to store data on a given file.
+ * @param fileName name of the file.
+ */
+fun createWriter(fileName: String): PrintWriter {
     return PrintWriter(fileName)
 }

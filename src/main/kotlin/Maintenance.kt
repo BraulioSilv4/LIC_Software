@@ -1,11 +1,12 @@
 import kotlin.system.exitProcess
 
 object Maintenance {
+    // Puts the system on maintenance mode while the maintenance signal is set to '1'.
     fun maint(){
         LCD.clear()
         LCD.write("Out of Service")
-        while (HAL.isBit(0x20) && !closed){
-            println("Please select the desired option")
+        while (HAL.isBit(MBIT)){
+            println("Please select the desired option:")
             println("1 - Add user")
             println("2 - Remove a user")
             println("3 - Add a user message")
@@ -17,8 +18,9 @@ object Maintenance {
                 4 -> shutDown()
             }
         }
-        if (!closed) APP.runAPP()
+        APP.runAPP()
     }
+    //Adds a user to the system
     private fun addUser() {
         var availableId = -1
         for (id in Users.userList.indices){
@@ -40,17 +42,17 @@ object Maintenance {
             Users.addUser(availableId,answer,name)
         }
     }
-
+    //Removes a user from the system
     private fun removeUser(){
         println("Insert the uID of the user to remove(3 numbers)")
         val answer = readln().toInt()
         if (answer.toString().length > 3){
-            println("PIN too large.")
+            println("uID too large.")
             return
         }
         Users.removeUser(answer)
     }
-
+    // Adds a message to a user given by the client.
     private fun insertMessage(){
         println("Insert the uID of the user to insert message(3 numbers)")
         val answer = readln().toInt()
@@ -63,10 +65,12 @@ object Maintenance {
         Users.addUserMessage(answer,message)
     }
 
+    // Shuts down the system upon receiving confirmation.
     private fun shutDown(){
         println("Are you sure you want to shutdown the system? Y/N")
         val answer = readln()[0].uppercaseChar()
         if (answer == 'Y') {
+            println("Shutting Down...")
             Users.updateUsers()
             exitProcess(0)
         }

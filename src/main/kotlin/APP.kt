@@ -1,14 +1,17 @@
 import java.util.concurrent.TimeUnit
-
 object APP {
-    val speed = 5
+    //velocity to open the door (value from 0 to 15)
+    val speed = 0
+
+    /** Runs the system on access mode while the maintenance bit is set to '0' .*/
     fun runAPP(){
-        while (!HAL.isBit(0b00100000)){
-            authenticate()
-        }
-        if (!closed) Maintenance.maint()
+        while (!HAL.isBit(MBIT)){ authenticate() }
+        Maintenance.maint()
     }
 
+
+    /** Asks and reads a user from the hardware.
+     * @return user if the read was successful or null if not.*/
     private fun getUser(): User? {
         var uID = TUI.getUIN()
         if (uID == null) uID = TUI.getUIN()
@@ -23,6 +26,9 @@ object APP {
         }
         return null
     }
+
+
+    /** Reads a user and if its valid allows access by logging the access,opening the door. */
     private fun authenticate(){
         val user =getUser()
         if (user != null ){
@@ -43,6 +49,10 @@ object APP {
         }
     }
 
+
+    /** Allows for a change of user pin asking for confirmation.
+     * @param user to change the pin
+     */
     private fun changePIN(user: User) {
         LCD.clear()
         val pin = TUI.getPIN("new PIN:")
@@ -59,6 +69,9 @@ object APP {
         TimeUnit.SECONDS.sleep(3)
         LCD.clear()
     }
+
+
+    // Opens the door for the user to enter and closes it
     private fun openDoor(){
         DoorMechanism.open(speed)
         while (!DoorMechanism.finished()){
@@ -66,6 +79,11 @@ object APP {
         }
         DoorMechanism.close(speed)
     }
+
+
+    /** Removes the displayed user message from the system.
+     * @param user which the message is associated to.
+     */
     private fun removeMessage(user: User){
         LCD.clear()
         LCD.write("Removing message... ")

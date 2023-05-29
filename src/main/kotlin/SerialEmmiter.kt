@@ -7,13 +7,13 @@ object SerialEmmiter { // Envia tramas para os diferentes módulos Serial Receiv
     private const val SDX = 0x1
     private const val LCDSEL = 0x4
     private const val DCSEL = 0x8
-    private const val Busy = 0x40
+    private const val BUSY = 0x40
 
 
     /** Initializes the class by putting both nSS signals with the value '1' and setting the clk signal generated from this class to '0'.*/
     fun init() {
         if (!inititialized){
-            HAL.setBits(LCDSEL or DCSEL)
+            HAL.setBits(LCDSEL + DCSEL)
             HAL.clrBits(SClk)
             inititialized = true
         }
@@ -45,5 +45,5 @@ object SerialEmmiter { // Envia tramas para os diferentes módulos Serial Receiv
 
     /** Checks if the SDC is busy
      * @return true if the module is busy and false if it's free.*/
-    fun isBusy():Boolean = !HAL.isBit(Busy)
+    fun isBusy():Boolean = !HAL.isBit(BUSY)
 }

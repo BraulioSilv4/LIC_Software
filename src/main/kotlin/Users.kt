@@ -3,14 +3,14 @@ object Users {
     var userList = getUsers()
 
     /** Gets the users from the files and stores them
-     * @return Array of size 1000 with the users and nulls on spaces where users don't exist yet.
-     */
+     * @return Array of size 1000 with the users and nulls on spaces where users don't exist yet. */
     private fun getUsers():Array<User?>{
         val list = FileAccess.read("USERS.txt")
         val users = arrayOfNulls<User>(1000)
         list.forEach() {
             val info = it!!.split(";")
-            users[info[0].toInt()] = User(info[0].toInt(), info[1].toInt(), info[2],info[3])
+            users[info[0].toInt()] = User(info[0].toInt(), info[1].toInt(), info[2])
+            if (info[3].isNotEmpty()) users[info[0].toInt()]!!.phrase = info[3]
         }
         return users
     }
@@ -21,7 +21,7 @@ object Users {
         val listToWrite = mutableListOf<String>()
         for (user in userList) {
             if (user == null) continue
-            val userWrite = "${user.ID};${user.pin};${user.name};${user.phrase ?: ""}"
+            val userWrite = "${user.ID};${user.pin};${user.name};${user.phrase?: ""}"
             listToWrite += userWrite
         }
         FileAccess.writeData(listToWrite,"USERS.txt")
@@ -89,7 +89,7 @@ object Users {
     }
 
     /** Removes a message associated to a given user
-     * @param id of the user to remove the message*/
+     * @param id of the user to remove the message  */
     fun removeUserMessage(id: Int){
         addUserMessage(id,null)
     }

@@ -2,7 +2,8 @@ import kotlin.system.exitProcess
 
 object Maintenance {
     // Puts the system on maintenance mode while the maintenance signal is set to '1'.
-    fun maint(){
+    fun maintenance(){
+        println("Mode: Maintenance")
         LCD.clear()
         LCD.write("Out of Service")
         while (HAL.isBit(MBIT)){
@@ -18,8 +19,10 @@ object Maintenance {
                 4 -> shutDown()
             }
         }
+        println("Mode: Access")
         APP.runAPP()
     }
+
     //Adds a user to the system
     private fun addUser() {
         var availableId = -1
@@ -42,6 +45,7 @@ object Maintenance {
             Users.addUser(availableId,answer,name)
         }
     }
+
     //Removes a user from the system
     private fun removeUser(){
         println("Insert the uID of the user to remove(3 numbers)")
@@ -52,6 +56,7 @@ object Maintenance {
         }
         Users.removeUser(answer)
     }
+
     // Adds a message to a user given by the client.
     private fun insertMessage(){
         println("Insert the uID of the user to insert message(3 numbers)")

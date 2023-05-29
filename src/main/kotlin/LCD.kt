@@ -1,19 +1,24 @@
 
 object LCD{ // Writes to the LCD using the 4-bit interface.
-    private val series = true
+    private val serial = true // Communication mode, set to true to send data in series or false to send data in parallel
     private const val LINES = 2
     private const val COLS = 16 // Dimensions of the display.
     var initialized = false
 
+    //masks to write data in parallel to the LCD.
+    private const val RS = 0x10
+    private const val DATA = 0XF
+    private const val E = 0x20
+
     // Writes a command/data nibble to the LCD in parallel.
      private fun writeNibbleParallel(rs: Boolean, data: Int){
         if (rs){
-            HAL.setBits(0x10)
+            HAL.setBits(RS)
         }
-        else HAL.clrBits(0x10)
-        HAL.setBits(0x20)
-        HAL.writeBits(0xF,data)
-        HAL.clrBits(0x20)
+        else HAL.clrBits(DATA)
+        HAL.setBits(E)
+        HAL.writeBits(DATA,data)
+        HAL.clrBits(E)
     }
 
     // Writes a command/data nibble to the LCD in series.
@@ -24,7 +29,7 @@ object LCD{ // Writes to the LCD using the 4-bit interface.
 
     // Writes a command/data nibble to the LCD.
     private fun writeNibble(rs: Boolean, data: Int) {
-        if (series) writeNibbleSerial(rs,data) else writeNibbleParallel(rs,data)
+        if (serial) writeNibbleSerial(rs,data) else writeNibbleParallel(rs,data)
     }
 
     // Writes a command/data byte to the LCD.

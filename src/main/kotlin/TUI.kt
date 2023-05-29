@@ -1,9 +1,7 @@
 object TUI {
 
-
     /** Attempts to read a uID from the hardware for 5 seconds.
-     * @return given uID or null if the attempt to read was unsuccessful.
-     */
+     * @return given uID or null if the attempt to read was unsuccessful. */
     fun getUIN(): Int? {
         LCD.clear()
         LCD.write("Insert UIN:???")
@@ -12,6 +10,10 @@ object TUI {
 
         repeat(UIN_SIZE) {
             val key = KBD.waitKey(5000)
+            if (key == '*'){
+                if (uin.isEmpty()) return null
+                return getUIN()
+            }
             if(key != KBD.NONE){
                 LCD.write(key)
                 uin += key
@@ -30,8 +32,7 @@ object TUI {
 
 
     /** Attempts to read a PIN from the hardware for 5 seconds.
-     * @return given PIN or null if the attempt to read was unsuccessful.
-     */
+     * @return given PIN or null if the attempt to read was unsuccessful. */
      fun getPIN(message:String): Int? {
         LCD.clear()
         LCD.write(message)
@@ -39,6 +40,10 @@ object TUI {
 
         repeat(PIN_SIZE) {
             val key = KBD.waitKey(5000)
+            if (key == '*'){
+                if (pin.isEmpty()) return null
+                return getPIN(message)
+            }
             if (key != KBD.NONE) {
                 LCD.write('*')
                 pin += key

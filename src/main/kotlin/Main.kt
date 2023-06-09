@@ -1,3 +1,8 @@
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.concurrent.thread
+public var hour = ""
 const val MBIT = 0x20
 const val UIN_SIZE = 3
 const val PIN_SIZE = 4
@@ -18,6 +23,14 @@ fun init(){
 }
 
 fun main() {
-   init()
-    APP.runAPP()
+    init()
+    val main = thread{ APP.runAPP() }
+    println(hour.toString())
+    val hours = thread {
+        while (true){
+            val currentDateTime = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
+            hour = currentDateTime.format(formatter)
+        }
+    }
 }

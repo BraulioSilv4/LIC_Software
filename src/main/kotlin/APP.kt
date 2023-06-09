@@ -63,11 +63,19 @@ object APP {
     private fun changePIN(user: User) {
         if (HAL.isBit(MBIT)) return
         LCD.clear()
-        val pin = TUI.getPIN("new PIN:")
+        val curr = TUI.getPIN("Current PIN:")
+        if (curr != user.pin){
+            LCD.clear()
+            LCD.write("Unauthorized.")
+            Thread.sleep(2000)
+            return
+        }
+        val pin = TUI.getPIN("New PIN:")
         val pin2 = TUI.getPIN("Repeat:")
+        if (pin == null || pin2 == null) return
         if (pin == pin2) {
             LCD.clear()
-            user.pin = pin!!
+            user.pin = pin
             LCD.write("PIN of user ${user.ID} has been changed.")
         } else {
             LCD.clear()

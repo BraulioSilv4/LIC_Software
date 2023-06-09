@@ -3,9 +3,10 @@ object TUI {
     /** Attempts to read a uID from the hardware for 5 seconds.
      * @return given uID or null if the attempt to read was unsuccessful. */
     fun getUIN(): Int? {
+
         LCD.clear()
-        LCD.write("Insert UIN:???")
-        LCD.cursor(0,11)
+        LCD.write(hour+"Insert UIN:???")
+        LCD.cursor(1,11)
         var uin = ""
 
         repeat(UIN_SIZE) {
@@ -27,7 +28,7 @@ object TUI {
             }
         }
         LCD.clear()
-        return uin.toInt()
+        return uin.toIntOrNull()
     }
 
 
@@ -35,7 +36,7 @@ object TUI {
      * @return given PIN or null if the attempt to read was unsuccessful. */
      fun getPIN(message:String): Int? {
         LCD.clear()
-        LCD.write(message)
+        LCD.write(hour+message)
         var pin = ""
 
         repeat(PIN_SIZE) {
@@ -44,7 +45,7 @@ object TUI {
                 if (pin.isEmpty()) return null
                 return getPIN(message)
             }
-            if (key != KBD.NONE) {
+            else if (key != KBD.NONE) {
                 LCD.write('*')
                 pin += key
             } else {
@@ -54,6 +55,6 @@ object TUI {
                 return null
             }
         }
-        return pin.toInt()
+        return pin.toIntOrNull()
     }
 }
